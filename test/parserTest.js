@@ -5,7 +5,7 @@ describe('parseInputs', () => {
   describe('for only single file is given', () => {
     it('should return object with key "file" and  value filename', () => {
       let actual = parseInputs(["file1"]);
-      let expectedOutput = { file: "file1" };
+      let expectedOutput = { option: "all" , file: "file1" };
       assert.deepEqual(actual, expectedOutput);
     });
   });

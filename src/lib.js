@@ -29,10 +29,19 @@ const countLines = function (text) {
     return text.split("\n").length - 1;
 }
 
+const allCounts = function(text) {
+  const lineCount = countLines(text);
+  const byteCount = countBytes(text);
+  const wordCount = countWords(text);
+ 
+  return [lineCount, wordCount, byteCount ];
+}
+
 const requiredOption = {
     "words": countWords,
     "bytes": countBytes,
-    "lines": countLines
+    "lines": countLines,
+    "all" : allCounts
 }
 
 const wc = function (args, fs) {
@@ -42,10 +51,9 @@ const wc = function (args, fs) {
     const fileContent = readFile(file, fs);
 
     if (args.length == 1) {
-        const lineCount = countLines(fileContent);
-        const byteCount = countBytes(fileContent);
-        const wordCount = countWords(fileContent);
-        return [lineCount, wordCount, byteCount, args].join("\t");
+      let allCount = allCounts(fileContent);
+      allCount.push(file); 
+      return allCount.join("\t");
     }
 
     let count = requiredOption[option](fileContent);
