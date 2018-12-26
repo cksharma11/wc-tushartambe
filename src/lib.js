@@ -1,19 +1,21 @@
-const readFile = function(file, fs) {
-    return fs.readFileSync(file,'utf8');
+const { parseInputs } = require("./parser");
+
+const readFile = function (file, fs) {
+    return fs.readFileSync(file, 'utf8');
 }
 
 const countBytes = function (text) {
     return text.split("").length;
 }
 
-const replaceSpaceWithNewline = function(character) {
-    if(character == " ") {
-      return "\n";
+const replaceSpaceWithNewline = function (character) {
+    if (character == " ") {
+        return "\n";
     }
     return character;
 }
 
-const isNotEmpty = function(character) {
+const isNotEmpty = function (character) {
     return character !== "";
 }
 
@@ -23,19 +25,31 @@ const countWords = function (text) {
     return words.length;
 }
 
-const countLines = function(text) {
-    return text.split("\n").length;
+const countLines = function (text) {
+    return text.split("\n").length - 1;
 }
 
-const wc = function(file, fs) {
+const requiredOption = {
+    "words": countWords,
+    "bytes": countBytes,
+    "lines": countLines
+}
+
+const wc = function (args, fs) {
+    let organizedInputs = parseInputs(args);
+    const { file, option } = organizedInputs;
+
     const fileContent = readFile(file, fs);
 
-    const lineCount = countLines(fileContent)-1;
-    const byteCount = countBytes(fileContent);
-    const wordCount = countWords(fileContent);
-    
+    if (args.length == 1) {
+        const lineCount = countLines(fileContent);
+        const byteCount = countBytes(fileContent);
+        const wordCount = countWords(fileContent);
+        return [lineCount, wordCount, byteCount, args].join("\t");
+    }
 
-    return [lineCount,wordCount,byteCount,file].join("\t");
+    let count = requiredOption[option](fileContent);
+    return [count, file].join("\t");
 }
 
 module.exports = {
