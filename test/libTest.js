@@ -14,13 +14,13 @@ fs.readFileSync = function(file,encoding) {
 describe('wc',() => {
     it('should return total lines, words and characters for no option and a file is given',() => {
         let actual = wc("numbers",fs);
-        let expectedOutput = ["10","10","19","numbers"].join("\t");
+        let expectedOutput = ["9","10","19","numbers"].join("\t");
         assert.deepEqual(actual, expectedOutput);
     });
 
     it('should return total lines, words and characters for no option and a file is given',() => {
         let actual = wc("line",fs);
-        let expectedOutput = ["1","1","4","line"].join("\t");
+        let expectedOutput = ["0","1","4","line"].join("\t");
         assert.deepEqual(actual, expectedOutput);
     });
 });

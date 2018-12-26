@@ -8,7 +8,7 @@ const countBytes = function (text) {
 
 const replaceSpaceWithNewline = function(character) {
     if(character == " ") {
-      character = "\n";
+      return "\n";
     }
     return character;
 }
@@ -30,9 +30,10 @@ const countLines = function(text) {
 const wc = function(file, fs) {
     const fileContent = readFile(file, fs);
 
+    const lineCount = countLines(fileContent)-1;
     const byteCount = countBytes(fileContent);
     const wordCount = countWords(fileContent);
-    const lineCount = countLines(fileContent);
+    
 
     return [lineCount,wordCount,byteCount,file].join("\t");
 }
