@@ -1,4 +1,4 @@
-###Usage:
+### Usage:
 ```
   node ./wc.js file1
   node ./wc.js -l file1
