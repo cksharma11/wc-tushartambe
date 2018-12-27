@@ -29,35 +29,41 @@ const countLines = function (text) {
     return text.split("\n").length - 1;
 }
 
-const allCounts = function(text) {
-  const lineCount = countLines(text);
-  const byteCount = countBytes(text);
-  const wordCount = countWords(text);
- 
-  return [lineCount, wordCount, byteCount ];
+const hasLineCountOption = function(options) {
+    let separatedOptions = options.join("").split("");
+    return separatedOptions.includes('l');
 }
 
-const requiredOption = {
-    "words": countWords,
-    "bytes": countBytes,
-    "lines": countLines,
-    "all" : allCounts
+const hasWordCountOption = function(options) {
+    let separatedOptions = options.join("").split("");
+    return separatedOptions.includes('w');
+}
+
+const hasByteCountOption = function(options) {
+    let separatedOptions = options.join("").split("");
+    return separatedOptions.includes('c');
 }
 
 const wc = function (args, fs) {
     let organizedInputs = parseInputs(args);
-    const { file, option } = organizedInputs;
-
-    const fileContent = readFile(file, fs);
-
-    if (args.length == 1) {
-      let allCount = allCounts(fileContent);
-      allCount.push(file); 
-      return allCount.join("\t");
+    const { files, options } = organizedInputs;
+    const fileContents = readFile(files[0],fs);
+    let wcOutput = [];
+     
+    if(hasLineCountOption(options)) {
+        wcOutput.push(countLines(fileContents));
     }
 
-    let count = requiredOption[option](fileContent);
-    return [count, file].join("\t");
+    if(hasWordCountOption(options)) {
+        wcOutput.push(countWords(fileContents));
+    }
+
+    if(hasByteCountOption(options)) {
+        wcOutput.push(countBytes(fileContents));
+    }
+    wcOutput.push(files[0]);
+
+    return wcOutput.join("\t"); 
 }
 
 module.exports = {

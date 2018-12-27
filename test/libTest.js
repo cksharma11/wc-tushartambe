@@ -47,4 +47,24 @@ describe('wc', () => {
             assert.deepEqual(actual, expectedOutput);
         });
     });
+
+    describe('for multiple options and single file ', () => {
+        it("should return total lines and bytes for option '-lc' for file", () => {
+            let actual = wc(["-lc", "numbers"], fs);
+            let expectedOutput = ["9", "19", "numbers"].join("\t");
+            assert.deepEqual(actual, expectedOutput);
+        });
+
+        it('should return all counts for option "-c", "-l", "-w" of file', () => {
+            let actual = wc(["-c", "-wl", "alphabets"], fs);
+            let expectedOutput = ["5", "6", "11", "alphabets"].join("\t");
+            assert.deepEqual(actual, expectedOutput);
+        });
+
+        it('should return total words and bytes for option "-w" and "-c" is given', () => {
+            let actual = wc(["-w", "-c", "alphabets"], fs);
+            let expectedOutput = ["6", "11","alphabets"].join("\t");
+            assert.deepEqual(actual, expectedOutput);
+        });
+    });
 });
