@@ -56,11 +56,25 @@ const joinWithNewLine = function (list) {
     return list.join("\n");
 }
 
+const calculateSum = function (firstList, secondList) {
+    let sum = [];
+    for (let counter = 0; counter < firstList.length - 1; counter++) {
+        sum[counter] = firstList[counter] + secondList[counter];
+    }
+    sum.push("total");
+    return sum;
+}
+
 const wc = function (args, fs) {
     let organizedInputs = parseInputs(args);
     const { files, options } = organizedInputs;
     let getResult = resultGenerator.bind(null, fs, options);
     let wcOutput = files.map(getResult);
+
+    if (files.length > 1) {
+        let total = wcOutput.reduce(calculateSum);
+        wcOutput.push(total);
+    }
 
     return joinWithNewLine(wcOutput.map(joinWithTab));
 }

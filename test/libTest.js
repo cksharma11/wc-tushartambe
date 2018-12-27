@@ -67,4 +67,37 @@ describe('wc', () => {
             assert.deepEqual(actual, expectedOutput);
         });
     });
+
+    describe('for multiple options and multiple files ', () => {
+        const joinWithTab = function (list) {
+            return list.join("\t");
+        }
+
+        const joinWithNewLine = function (list) {
+            return list.join("\n");
+        }
+
+        it("should return counts for option and total at last", () => {
+            let actual = wc(["-lc", "numbers", "numbers"], fs);
+            let expectedCounts = [["9", "19", "numbers"], ["9", "19", "numbers"], ["18", "38", "total"]];
+            let expectedOutput = joinWithNewLine(expectedCounts.map(joinWithTab));
+            assert.deepEqual(actual, expectedOutput);
+        });
+
+        it('should return all counts and total if no options specified', () => {
+            let actual = wc(["alphabets", "numbers"], fs);
+            let expectedCounts = [["5", "6", "11", "alphabets"], ["9", "10", "19", "numbers"], ["14", "16", "30", "total"]];
+
+            let expectedOutput = joinWithNewLine(expectedCounts.map(joinWithTab));
+            assert.deepEqual(actual, expectedOutput);
+        });
+
+        it('should return total words for all files and total if "-w" is given', () => {
+            let actual = wc(["-w", "alphabets", "numbers"], fs);
+            let expectedCounts = [["6", "alphabets"], ["10", "numbers"], ["16", "total"]];
+
+            let expectedOutput = joinWithNewLine(expectedCounts.map(joinWithTab));
+            assert.deepEqual(actual, expectedOutput);
+        });
+    });
 });
