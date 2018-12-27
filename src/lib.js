@@ -5,14 +5,7 @@ const readFile = function (file, fs) {
 }
 
 const countBytes = function (text) {
-    return text.split("").length;
-}
-
-const replaceSpaceWithNewline = function (character) {
-    if (character == " ") {
-        return "\n";
-    }
-    return character;
+    return text.length;
 }
 
 const isNotEmpty = function (character) {
@@ -20,8 +13,7 @@ const isNotEmpty = function (character) {
 }
 
 const countWords = function (text) {
-    let textBytes = text.split("");
-    let words = textBytes.map(replaceSpaceWithNewline).join("").split("\n").filter(isNotEmpty);
+    let words = text.split(/[ \n]+/).filter(isNotEmpty);
     return words.length;
 }
 
@@ -29,19 +21,9 @@ const countLines = function (text) {
     return text.split("\n").length - 1;
 }
 
-const hasLineCountOption = function(options) {
+const isOptionExists = function(options, option) {
     let separatedOptions = options.join("").split("");
-    return separatedOptions.includes('l');
-}
-
-const hasWordCountOption = function(options) {
-    let separatedOptions = options.join("").split("");
-    return separatedOptions.includes('w');
-}
-
-const hasByteCountOption = function(options) {
-    let separatedOptions = options.join("").split("");
-    return separatedOptions.includes('c');
+    return separatedOptions.includes(option);
 }
 
 const wc = function (args, fs) {
@@ -49,18 +31,21 @@ const wc = function (args, fs) {
     const { files, options } = organizedInputs;
     const fileContents = readFile(files[0],fs);
     let wcOutput = [];
-     
-    if(hasLineCountOption(options)) {
+    
+    let isOptionPresent = isOptionExists.bind(null, options);
+
+    if(isOptionPresent('l')) {
         wcOutput.push(countLines(fileContents));
     }
 
-    if(hasWordCountOption(options)) {
+    if(isOptionPresent('w')) {
         wcOutput.push(countWords(fileContents));
     }
 
-    if(hasByteCountOption(options)) {
+    if(isOptionPresent('c')) {
         wcOutput.push(countBytes(fileContents));
     }
+
     wcOutput.push(files[0]);
 
     return wcOutput.join("\t"); 
