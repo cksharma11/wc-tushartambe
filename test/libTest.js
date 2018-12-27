@@ -63,7 +63,7 @@ describe('wc', () => {
 
         it('should return total words and bytes for option "-w" and "-c" is given', () => {
             let actual = wc(["-w", "-c", "alphabets"], fs);
-            let expectedOutput = ["6", "11","alphabets"].join("\t");
+            let expectedOutput = ["6", "11", "alphabets"].join("\t");
             assert.deepEqual(actual, expectedOutput);
         });
     });
