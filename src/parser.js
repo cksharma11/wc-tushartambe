@@ -11,6 +11,16 @@ const filesStartFrom = function (args) {
   return args.length;
 }
 
+const isNotDash = function (arg) {
+  return arg != "-";
+}
+
+const separateOptions = function (options) {
+  let separatedOptions = options.join("").split("");
+
+  return separatedOptions.filter(isNotDash);
+}
+
 const parseInputs = function (args) {
   const firstArg = args[0];
   const filesStartFromIndex = filesStartFrom(args);
@@ -19,10 +29,10 @@ const parseInputs = function (args) {
   const files = args.slice(filesStartFromIndex);
 
   if (options.length != 0) {
-    return createArgsObject(options, files);
+    return createArgsObject(separateOptions(options), files);
   }
 
-  return { options: ['-l', '-w', '-c'], files: files };
+  return { options: ['l', 'w', 'c'], files: files };
 }
 
 module.exports = {
