@@ -11,18 +11,14 @@ const filesStartFrom = function (args) {
   return args.length;
 }
 
-const isNotDash = function (arg) {
-  return arg != "-";
-}
-
 const separateOptions = function (options) {
-  let separatedOptions = options.join("").split("");
+  let optionsWithoutDash = options.map((option) => option.slice(1));
+  let separatedOptions = optionsWithoutDash.join("").split("");
 
-  return separatedOptions.filter(isNotDash);
+  return separatedOptions;
 }
 
 const parseInputs = function (args) {
-  const firstArg = args[0];
   const filesStartFromIndex = filesStartFrom(args);
 
   const options = args.slice(0, filesStartFromIndex);
