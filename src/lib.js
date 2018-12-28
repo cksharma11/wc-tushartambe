@@ -51,7 +51,13 @@ const calculateSum = function (firstList, secondList) {
 
 const wc = function (args, fs) {
 	let organizedInputs = parseInputs(args);
-	const { files, options } = organizedInputs;
+
+	const { files, options, errorMsg } = organizedInputs;
+
+	if (errorMsg) {
+		return errorMsg;
+	}
+
 	let getResult = resultGenerator.bind(null, fs, options);
 	let wcOutput = files.map(getResult);
 

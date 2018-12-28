@@ -18,17 +18,32 @@ const separateOptions = function (options) {
   return separatedOptions;
 }
 
+const isInValidOption = function (arg) {
+  const validOptions = ['l', 'w', 'c'];
+  return !validOptions.includes(arg);
+}
+
 const parseInputs = function (args) {
   const filesStartFromIndex = filesStartFrom(args);
-
-  const options = args.slice(0, filesStartFromIndex);
+  let errorMsg = "";
+  let options = separateOptions(args.slice(0, filesStartFromIndex));
   const files = args.slice(filesStartFromIndex);
 
-  if (options.length != 0) {
-    return createArgsObject(separateOptions(options), files);
+  if (options.length == 0) {
+    options = ["l", "w", "c"];
   }
 
-  return { options: ['l', 'w', 'c'], files: files };
+  let invalidOptionIndex = options.findIndex(isInValidOption);
+
+  if (invalidOptionIndex != -1) {
+    errorMsg = "wc: illegal option -- " + options[invalidOptionIndex];
+    errorMsg += "\n" + "usage: wc [-clmw] [file ...]"
+    return errorMsg;
+  }
+
+  return {
+    options, files, errorMsg
+  };
 }
 
 module.exports = {
