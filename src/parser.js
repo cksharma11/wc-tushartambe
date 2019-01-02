@@ -1,7 +1,3 @@
-createArgsObject = function (options, files) {
-  return { "options": options, "files": files };
-}
-
 const filesStartFrom = function (args) {
   for (let counter = 0; counter < args.length; counter++) {
     if (args[counter][0] !== "-") {
@@ -38,7 +34,6 @@ const parseInputs = function (args) {
   if (invalidOptionIndex != -1) {
     errorMsg = "wc: illegal option -- " + options[invalidOptionIndex];
     errorMsg += "\n" + "usage: wc [-clmw] [file ...]"
-    return errorMsg;
   }
 
   return {
