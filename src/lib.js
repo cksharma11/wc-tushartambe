@@ -40,6 +40,7 @@ const getCounts = function(options, fileName, fileContents) {
 
   return wcOutput;
 };
+
 const sequenceGenerator = function(originalSequence, list) {
   let fileIndex = list[0].length - 1;
   let sequence = originalSequence.map(function(element) {
@@ -65,7 +66,6 @@ const reader = function(
   if (files.length == 1) {
     let wcOutput = joinWithNewLine(totalCounts.map(joinWithTab));
     console.log(wcOutput);
-    fs.writeFileSync("./output", wcOutput, "utf8");
   }
 
   if (files.length > 1 && totalCounts.length == files.length) {
@@ -74,8 +74,6 @@ const reader = function(
     sequencedTotalCounts.push(total);
     let wcOutput = joinWithNewLine(sequencedTotalCounts.map(joinWithTab));
     console.log(wcOutput);
-
-    fs.writeFileSync("./output", wcOutput, "utf8");
   }
 };
 
